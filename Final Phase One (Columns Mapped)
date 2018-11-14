@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 df= pd.read_csv("Breast-Cancer-Wisconsin.csv", na_values= ["?"])
 df= df.apply(pd.to_numeric, errors='coerce')
@@ -22,11 +24,18 @@ newcols = {
        'CLASS':'Class:'
            }
     
-#Use Rename( to rename the columns)
+##Use Rename( to rename the columns)##
 df.rename(columns=newcols, inplace=True)
     
-#Rename the index
+#Rename the index## 
 df.rename(index={1:'a'})
 
+#Show the null counts by dimension##
+null_counts = df.isnull().sum()
+null_counts[null_counts > 0].sort_values(ascending= False)
 
-print(df.head())
+print(null_counts[null_counts > 0].sort_values(ascending=False))
+
+
+## Print Summary Statistics for All Fields##
+print(df.describe(include='all'))
