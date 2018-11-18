@@ -1,0 +1,113 @@
+%matplotlib inline
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.ticker import StrMethodFormatter
+from collections import defaultdict, Counter
+
+Breast_Cancer_Data = pd.read_csv("Breast-Cancer-Wisconsin.csv", sep="\,", na_values=['?'])
+Breast_Cancer_Data.columns = ["Sample Code Number","Clump Thickness","Uniformity of Cell Size","Uniformity of Cell Shape", "Marginal Adhesion", "Single Epithelial Cell Size", "Bare Nuclei", "Bland Chromatin", "Normal Nucleoli", "Mitoses", "Class"]
+
+#Checking for Null Values
+print(pd.isnull(Breast_Cancer_Data).any())
+null_counts = Breast_Cancer_Data.isnull().sum()
+print(null_counts)
+
+#Total Number of Null Values in All Columns
+null_counts = Breast_Cancer_Data.isnull().sum()
+print("The Total Number of Null Values for All Columns is: ")
+print(null_counts)
+
+#Total Number of Null Values in Column #7, "Bare Nuclei"
+Bare_Nuclei_null_counts = Breast_Cancer_Data['Bare Nuclei'].isnull().sum()
+print("The Total Number of Null Values for Column 7, Bare Nuclei is: ")
+print(Bare_Nuclei_null_counts)
+
+#Describing the Data: First Column (Sample Code Number)
+Breast_Cancer_Data['Sample Code Number'].value_counts()
+#Describing the Data: Second Column (Clump Thickness)
+Breast_Cancer_Data['Clump Thickness'].value_counts()
+#Describing the Data: Third Column (Uniformity of Cell Size)
+Breast_Cancer_Data['Uniformity of Cell Size'].value_counts()
+#Describing the Data: Fourth Column (Uniformity of Cell Shape)
+Breast_Cancer_Data['Uniformity of Cell Shape'].value_counts()
+#Describing the Data: Fifth Column (Marginal Adhesion)
+Breast_Cancer_Data['Marginal Adhesion'].value_counts()
+#Describing the Data: Sixth Column (Single Epithelial Cell Size)
+Breast_Cancer_Data['Single Epithelial Cell Size'].value_counts()
+#Describing the Data: Seventh Column (Bare Nuclei)
+Breast_Cancer_Data['Bare Nuclei'].value_counts()
+#Describing the Data: Eight Column (Bland Chromatin)
+Breast_Cancer_Data['Bland Chromatin'].value_counts()
+#Describing the Data: Ninth Column (Normal Nucleoli)
+Breast_Cancer_Data['Normal Nucleoli'].value_counts()
+#Describing the Data: Tenth Column (Mitoses)
+Breast_Cancer_Data['Mitoses'].value_counts()
+#Describing the Data: Tenth Column (Class)
+Breast_Cancer_Data['Class'].value_counts()
+
+df = pd.isnull(Breast_Cancer_Data)
+null_counts = df.isnull().sum()
+null_counts[null_counts > 0].sort_values(ascending=False)
+null_counts
+
+
+Breast_Cancer_Data['Bare Nuclei'].replace('?', np.NaN)
+Breast_Cancer_Data.to_csv("NEW_BC_data.csv")
+
+nrRows, nrCols = Breast_Cancer_Data.shape
+print("The Shape of the Dataset, Breast-Cancer-Wisconsin.csv is: ")
+print("The Total Number of Rows of the Dataset, Breast-Cancer-Wisconsin.csv is: ")
+print(nrRows)
+print("The Total Number of Column of the Dataset, Breast-Cancer-Wisconsin.csv is: ")
+print(nrCols)
+
+#Summary Statistics of the Dataset
+Dataset_Summary_statistics=Breast_Cancer_Data.describe()
+print(Dataset_Summary_statistics)
+
+#Converting Column #7, "Bare Nuclei" to Numeric Data:
+num_Breast_Cancer_Data = Breast_Cancer_Data["Bare Nuclei"].apply(pd.to_numeric, errors='ignore')
+
+#Mean for Each Column
+print("The Dataset Mean for Each Column is: ")
+print(Breast_Cancer_Data.mean())
+
+#Mean for Column #7, "Bare Nuclei"
+print("The Dataset Mean for Column #7, Bare Nuclei is: ")
+print(Breast_Cancer_Data["Bare Nuclei"].mean())
+
+#Finding the Mean
+#Mean_Column7=Breast_Cancer_Data["Bare Nuclei"].fillna(Breast_Cancer_Data["Bare Nuclei"].mean(), skipna=TRUE)
+#print("The Average of Column 7 is: ")
+#print(Mean_Column7) 
+
+print("The Statical Summary for the Dataset Breast_Cancer_Data is: ")
+print(Breast_Cancer_Data.describe())
+
+
+#Breast_Cancer_Data['Clump Thickness'].plot(kind='hist',bins=50,figsize=(12,6))
+print("Total Number of Unique Values: ")
+print(Breast_Cancer_Data.nunique())
+
+#print("Total for All Columns")
+#Column_Totals=Breast_Cancer_Data[2:].sum()
+#print(Column_Totals)
+
+#print(Breast_Cancer_Data["Clump Thickness"].sum())
+
+
+
+#Histogram for Column #2: Clump Thickness
+Histogram_Clump_Thickness=Breast_Cancer_Data.plot(kind='hist', figsize=(12,6), x="Breast_Cancer_Data["Clump Thickness":"Class"]")
+print(Histogram_Clump_Thickness)
+#Histogram_Clump_Thickness.set_xlabel("Clump Thickness")
+
+
+#Scatter Plot for Column #3: Uniformity of Cell Size
+# scatterplot
+Breast_Cancer_Data.plot(kind='scatter',x='Uniformity of Cell Size', y='Class')
+
+#Barplot for Column #10: Class
+# Bar Plot
+Breast_Cancer_Data['Class'].value_counts().plot(kind='bar', title= "Class Size") 
